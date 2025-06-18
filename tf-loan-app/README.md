@@ -14,7 +14,7 @@ This folder defines the backend infrastructure for OmarFinance using Terraform. 
 - Terraform installed: https://developer.hashicorp.com/terraform/install
 - AWS CLI installed: https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html
 - AWS credentials configured:
-  
+
 ```bash
 aws configure
 ```

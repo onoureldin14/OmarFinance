@@ -1,5 +1,5 @@
 resource "aws_dynamodb_table" "loan_table" {
-  name         = "LoanTable"
+  name         = var.dynamodb_table_name
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "loanID"
   attribute {
@@ -49,10 +49,10 @@ resource "aws_apigatewayv2_api" "loan_api" {
 }
 
 resource "aws_apigatewayv2_integration" "lambda_integration" {
-  api_id             = aws_apigatewayv2_api.loan_api.id
-  integration_type   = "AWS_PROXY"
-  integration_uri    = aws_lambda_function.loan_handler.invoke_arn
-  integration_method = "POST"
+  api_id                 = aws_apigatewayv2_api.loan_api.id
+  integration_type       = "AWS_PROXY"
+  integration_uri        = aws_lambda_function.loan_handler.invoke_arn
+  integration_method     = "POST"
   payload_format_version = "2.0"
 }
 
