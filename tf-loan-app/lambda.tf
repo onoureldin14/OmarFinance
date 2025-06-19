@@ -1,9 +1,8 @@
 resource "aws_lambda_function" "loan_handler" {
-  function_name    = "loanHandler"
   filename         = "lambda.zip"
+  function_name    = "loanHandler"
   handler          = "index.handler"
-  runtime          = "nodejs18.x"
-  role             = aws_iam_role.lambda_exec_role.arn
+  runtime          = "nodejs22.x"
   source_code_hash = filebase64sha256("lambda.zip")
 
   environment {
@@ -11,6 +10,8 @@ resource "aws_lambda_function" "loan_handler" {
       TABLE_NAME = aws_dynamodb_table.loan_table.name
     }
   }
+
+  role = aws_iam_role.lambda_exec_role.arn
 }
 
 resource "aws_lambda_permission" "allow_api_gateway" {

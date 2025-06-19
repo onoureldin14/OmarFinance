@@ -15,13 +15,48 @@ OmarFinance is a lightweight, full-stack fintech prototype that includes:
 .
 ├── react-loan-app/     # Frontend React application
 │   └── README.md
-├── infra/              # Terraform backend infrastructure
+├── tf-loan-app/              # Terraform backend infrastructure
 │   └── README.md
 ├── assets/             # Screenshots and deployment references
 └── README.md           # You're here
 ```
 
 ---
+
+## ⚙️ Terraform Backend Deployment
+
+All backend infrastructure (API Gateway, Lambda, DynamoDB, and Terraform remote state) is defined in the [`tf-loan-app/`](./tf-loan-app/) folder.
+
+### Steps:
+
+```bash
+cd tf-loan-app/init
+terraform init
+terraform apply
+# copy the generated bucket name and update ../backend.tf
+```
+
+Then:
+
+```bash
+cd ../lambda
+npm install
+zip -r ../lambda.zip .
+cd ..
+terraform init
+terraform apply
+# copy the generated api gateway URL `e.g https://abc123.execute-api.us-east-1.amazonaws.com`
+
+```
+You can optionally enable CORS for the API Gateway via the AWS Console for added security
+![CORS](./assets/amplify/amplify-10.png)
+
+
+📖 See [`tf-loan-app/README.md`](./tf-loan-app/README.md) for full instructions.
+
+---
+
+
 
 ## 🚀 Amplify Deployment Guide (Step-by-Step)
 
@@ -86,6 +121,7 @@ Set:
 
 Click **Edit YML file** and use:
 
+
 ```yaml
 version: 1
 applications:
@@ -110,40 +146,28 @@ applications:
 ![YML Config](./assets/amplify/amplify-7.png)
 
 ---
+### ✅ 7. Add React App Enviornment Variable
 
-### ✅ 7. Review and Deploy
+Click **Advanced Settings** and scroll to **Environment variables**:
+
+
+Set:
+
+- **AMPLIFY_DIFF_DEPLOY**: `false`
+- **AMPLIFY_MONOREPO_APP_ROOT**: `react-loan-app`
+- **REACT_APP_API_URL**: `https://your-api-id.execute-api.region.amazonaws.com` # Replace with Terraform API GW Output
+
+![Enviornment Variables](./assets/amplify/amplify-11.png)
+
+---
+
+### ✅ 8. Review and Deploy
 
 - Confirm settings
 - Click **Deploy**
 
 ![Review and Deploy](./assets/amplify/amplify-8.png)
 ![Deployment Details](./assets/amplify/amplify-9.png)
-
----
-
-## ⚙️ Terraform Backend Deployment
-
-All backend infrastructure (API Gateway, Lambda, DynamoDB, and Terraform remote state) is defined in the [`infra/`](./infra/) folder.
-
-### Steps:
-
-```bash
-cd infra/init
-terraform init
-terraform apply
-# copy the generated bucket name and update ../backend.tf
-```
-
-Then:
-
-```bash
-cd ..
-zip lambda.zip lambda/index.js
-terraform init
-terraform apply
-```
-
-📖 See [`infra/README.md`](./infra/README.md) for full instructions.
 
 ---
 
