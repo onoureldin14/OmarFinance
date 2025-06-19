@@ -61,7 +61,8 @@ bucket = "tfstate-omarfinance-7g12k"
 
 ```bash
 cd ../lambda
-zip ../lambda.zip index.js
+npm install
+zip -r ../lambda.zip .
 cd ..
 ```
 
