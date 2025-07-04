@@ -3,7 +3,7 @@ resource "aws_lambda_function" "loan_handler" {
   function_name    = "loanHandler"
   handler          = "index.handler"
   runtime          = "nodejs22.x"
-  source_code_hash = filebase64sha256("lambda.zip")
+  source_code_hash =  data.archive_file.lambda.output_base64sha256
 
   environment {
     variables = {
