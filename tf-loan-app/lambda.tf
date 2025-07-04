@@ -1,5 +1,5 @@
 resource "aws_lambda_function" "loan_handler" {
-  filename         = "lambda.zip"
+  filename         = data.archive_file.lambda.output_path
   function_name    = "loanHandler"
   handler          = "index.handler"
   runtime          = "nodejs22.x"
